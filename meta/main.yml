@@ -1,0 +1,16 @@
+galaxy_info:
+  author: lsiemer, ngotzmann
+  namespace: garliclabs
+  description: installs or removes pg backup cronjob on kubernetes. 
+  license: GPL-3.0-only
+
+  min_ansible_version: "2.11"
+
+  platforms:
+  - name: Debian
+
+  galaxy_tags:
+    - helm
+    - kubernetes
+    - ingress
+    - nginx
