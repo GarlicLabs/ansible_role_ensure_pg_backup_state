@@ -1,11 +1,12 @@
 ---
+
 - name: Ensure pg-backup-secret is {{ pg_backup_state }}
   kubernetes.core.k8s:
     template: backup-pg-secret.yml.j2
     state: "{{ pg_backup_state }}"
     namespace: "{{ pg_backup_namespace }}"
 
-- name: 
+- name: Ensure pg-backup cronjob is {{ pg_backup_state }}
   kubernetes.core.k8s:
     state: "{{ pg_backup_state }}"
     definition: 
