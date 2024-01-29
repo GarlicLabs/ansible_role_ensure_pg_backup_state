@@ -1,6 +1,6 @@
 # ensure_pg_backup_state
 
-[![Validate infrastructure as code](https://github.com/garliclabs/ensure_pg_backup_state/actions/workflows/validation.yml/badge.svg)](https://github.com/garliclabs/ensure_pg_backup_state/actions/workflows/validation.yml)
+[![Validate infrastructure as code](https://github.com/garliclabs/ansible_role_ensure_pg_backup_state/actions/workflows/validation.yml/badge.svg)](https://github.com/garliclabs/ansible_role_ensure_pg_backup_state/actions/workflows/validation.yml)
 
 This Role installs a Kubernetes-CronJob that Backups a Postgres Database-dump to a remote storage using https://github.com/GarlicLabs/backup_pg_to_remote_storage
 
