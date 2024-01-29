@@ -16,7 +16,7 @@
         name: backup-pg-to-remote-storage
         namespace: "{{ pg_backup_namespace }}"
       spec:
-        schedule: "0 12,22 * * *"
+        schedule: "{{ pg_backup_schedule }}"
         concurrencyPolicy: Forbid
         failedJobsHistoryLimit: 1
         backoffLimit: 1

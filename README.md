@@ -13,12 +13,14 @@ A working Kubernetes Cluster
 
 * pg_backup_state: If the CronJob to backup the Databases should be installed or removed. Accepts `present` and `absent`
 * pg_backup_namespace: The Namespace where the Secret and CronJob should be installed into. Namespace must exist beforehand.
+* pg_backup_schedule: The schedule of the Cronjob. Default is everyday at midnight (`"0 0 * * *"`).
 * pg_backup_config: The Content of the configuration Secret. An Example is found below. Please refer to [the Documentation](https://github.com/GarlicLabs/backup_pg_to_remote_storage) for more info.
 
 Example:
 ```yaml
 pg_backup_state: present
 pg_backup_namespace: default
+pg_backup_schedule: "0 0 * * *"
 pg_backup_config:
   storage:
     s3:
@@ -54,12 +56,6 @@ Then you can use it in your playbook:
   roles:
     - ensure_pg_backup_state
 ```
-
-### Testing
-
-* Create venv: `python3 -m venv ./venv`
-* Install pip requirements: `venv/bin/pip install -r pip_requirements.txt`
-* Execute tests `venv/bin/molecule test`
 
 ### Linting & static security analyser
 
