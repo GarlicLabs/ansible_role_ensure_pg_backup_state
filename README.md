@@ -24,12 +24,12 @@ pg_backup_schedule: "0 0 * * *"
 pg_backup_config:
   storage:
     s3:
-      endpoint:  "http://localhost:9000"
-      accessKey: "minio"
-      secretKey: "minio123"
+      endpoint:  "s3.example.com"
+      accessKey: "example"
+      secretKey: "example"
       bucket:    "test"
     databases:
-      - host:     "localhost"
+      - host:     "database.example.com"
         port:     5432
         username: "postgres"
         database: "postgres"
