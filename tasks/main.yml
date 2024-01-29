@@ -1,1 +1,43 @@
 ---
+- name: Ensure pg-backup-secret is {{ pg_backup_state }}
+  kubernetes.core.k8s:
+    template: backup-pg-secret.yml.j2
+    state: "{{ pg_backup_state }}"
+    namespace: "{{ pg_backup_namespace }}"
+
+- name: 
+  kubernetes.core.k8s:
+    state: "{{ pg_backup_state }}"
+    definition: 
+      apiVersion: batch/v1
+      kind: CronJob
+      metadata:
+        name: backup-pg-to-remote-storage
+        namespace: "{{ pg_backup_namespace }}"
+      spec:
+        schedule: "0 12,22 * * *"
+        concurrencyPolicy: Forbid
+        failedJobsHistoryLimit: 1
+        backoffLimit: 1
+        jobTemplate:
+          spec:
+            template:
+              spec:
+                containers:
+                  - name: backup-pg-to-remote-storage
+                    image: ghcr.io/garliclabs/backup-pg-to-remote-storage:latest
+                    env:
+                    - name: BACKUP_PG_CONFIG_PATH
+                      value: /etc/backup-pg-secret/secret.yml
+                    envFrom:
+                    - secretRef:
+                        name: backup-pg-secret
+                    volumeMounts:
+                      - name: backup-pg-secret
+                        mountPath: /etc/backup-pg-secret
+                        readOnly: true
+                restartPolicy: OnFailure       
+                volumes:
+                  - name: backup-pg-secret
+                    secret:
+                      secretName: backup-pg-secret

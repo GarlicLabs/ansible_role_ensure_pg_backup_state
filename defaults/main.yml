@@ -1,1 +1,17 @@
 ---
+pg_backup_state: present
+pg_backup_namespace: default
+pg_backup_config:
+  storage:
+    s3:
+      endpoint:  "http://localhost:9000"
+      accessKey: "minio"
+      secretKey: "minio123"
+      bucket:    "test"
+    databases:
+      - host:     "localhost"
+        port:     5432
+        username: "postgres"
+        database: "postgres"
+        password: "postgres"
+        retention: 30

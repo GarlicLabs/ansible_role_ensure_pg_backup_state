@@ -2,19 +2,58 @@
 
 [![Validate infrastructure as code](https://github.com/garliclabs/ensure_pg_backup_state/actions/workflows/validation.yml/badge.svg)](https://github.com/garliclabs/ensure_pg_backup_state/actions/workflows/validation.yml)
 
-TODO description
+This Role installs a Kubernetes-CronJob that Backups a Postgres Database-dump to a remote storage using https://github.com/GarlicLabs/backup_pg_to_remote_storage
+
 
 ## Requirements
 
-TODO
+A working Kubernetes Cluster
 
 ## Role Variables
 
-TODO
+* pg_backup_state: If the CronJob to backup the Databases should be installed or removed. Accepts `present` and `absent`
+* pg_backup_namespace: The Namespace where the Secret and CronJob should be installed into. Namespace must exist beforehand.
+* pg_backup_config: The Content of the configuration Secret. An Example is found below. Please refer to [the Documentation](https://github.com/GarlicLabs/backup_pg_to_remote_storage) for more info.
+
+Example:
+```yaml
+pg_backup_state: present
+pg_backup_namespace: default
+pg_backup_config:
+  storage:
+    s3:
+      endpoint:  "http://localhost:9000"
+      accessKey: "minio"
+      secretKey: "minio123"
+      bucket:    "test"
+    databases:
+      - host:     "localhost"
+        port:     5432
+        username: "postgres"
+        database: "postgres"
+        password: "postgres"
+        retention: 30
+
+```
+
 
 ## Development
 
-TODO
+To use this role in your playbook, you can put it into your galaxy requirements file:
+
+```yaml 
+- name: ensure_pg_backup_state
+  src: https://github.com/GarlicLabs/ansible_role_ensure_pg_backup_state
+```
+
+Then you can use it in your playbook:
+
+```yaml
+- name: Ensure state of pg backup
+  hosts: all
+  roles:
+    - ensure_pg_backup_state
+```
 
 ### Testing
 
@@ -34,7 +73,8 @@ Both the linter and the static security analyser are running on each push on the
 
 ## Dependencies
 
-None.
+Ansible-core.
+kubernetes.core.k8s collection.
 
 ## License
 
